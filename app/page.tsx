@@ -1,24 +1,17 @@
-"use client";
-import React from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
-const LandingPage = () => {
-  const router = useRouter();
-
+export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-white to-gray-50">
-      <div className="text-center space-y-8 px-6 max-w-xl mx-auto">
-        <h1 className="text-4xl font-light text-gray-900">Experiments</h1>
-
-        <button
-          onClick={() => router.push("/menu")}
-          className="group px-8 py-3 text-lg text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-all duration-200 flex items-center justify-center mx-auto space-x-2"
-        >
-          <span>Start</span>
-        </button>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-blue-200">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold mb-8 text-blue-800">XR 돌고래</h1>
+        <Link href="/login">
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg">
+            로그인
+          </Button>
+        </Link>
       </div>
     </div>
   );
-};
-
-export default LandingPage;
+}
