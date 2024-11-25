@@ -1,6 +1,5 @@
 "use client";
 import { CompactChat } from "@/components/compact-message";
-import ContentVersions from "@/components/content-versions";
 import EditPage from "@/components/edit";
 import ModalPage from "@/components/ModalPage";
 import { useState } from "react";

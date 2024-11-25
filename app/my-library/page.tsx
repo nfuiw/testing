@@ -5,7 +5,6 @@ import {
   Clock,
   Edit,
   Archive,
-  Bookmark,
   File,
   Trash,
   Home,

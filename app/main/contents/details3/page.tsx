@@ -1,7 +1,6 @@
 "use client";
 import { CompactChat } from "@/components/compact-message";
 import ContentDetails from "@/components/content-details";
-import ContentDetails2 from "@/components/content-details2";
 import { useState } from "react";
 
 interface ChatScenario {

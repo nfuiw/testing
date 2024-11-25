@@ -1,13 +1,6 @@
 "use client";
 import React from "react";
-import {
-  Star,
-  Clock,
-  Users,
-  ThumbsUp,
-  Search,
-  GraduationCap,
-} from "lucide-react";
+import { Star, Clock, Users, Search, GraduationCap } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface ContentItem {

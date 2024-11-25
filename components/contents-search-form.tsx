@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PlusCircle, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 // 타입 정의
