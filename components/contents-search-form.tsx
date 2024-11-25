@@ -70,15 +70,15 @@ const SUBJECTS = [
 
 export default function ContentsSearchForm() {
   const router = useRouter();
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
   const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [unit, setUnit] = useState("");
-  const [keywords, setKeywords] = useState("");
+
   const [selectedXRType, setSelectedXRType] = useState<string | null>(null);
   const [selectedDevice, setSelectedDevice] = useState<string | null>(null);
   const [selectedHours, setSelectedHours] = useState<string | null>(null);
-  const [showAdditionalOptions, setShowAdditionalOptions] = useState(false);
+
   const [selectedVRHeadset, setSelectedVRHeadset] = useState<string | null>(
     null
   );

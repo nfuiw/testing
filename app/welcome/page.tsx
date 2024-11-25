@@ -18,7 +18,7 @@ export default function Welcome() {
   const [selectedGrades, setSelectedGrades] = useState<number[]>([]);
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [selectedStudentCount, setSelectedStudentCount] = useState<string>("");
-  const [selectedExperience, setSelectedExperience] = useState(false);
+  const [, setSelectedExperience] = useState(false);
 
   const router = useRouter();
   const getProgressStep = () => {
@@ -65,7 +65,7 @@ export default function Welcome() {
     setShowNext(true);
   };
 
-  const handleExperienceSelect = (hasExperience: boolean) => {
+  const handleExperienceSelect = () => {
     setSelectedExperience(true);
     setShowNext(true);
   };

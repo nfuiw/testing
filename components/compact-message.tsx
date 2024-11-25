@@ -12,13 +12,12 @@ interface CompactChatProps {
 
 export const CompactChat = ({
   message,
-  subtitle,
   onComplete,
   className = "",
 }: CompactChatProps) => {
   const [text, setText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
-  const [showSubtitle, setShowSubtitle] = useState(false);
+  const [, setShowSubtitle] = useState(false);
   const isTypingComplete = useRef(false);
 
   // message prop이 변경될 때마다 상태 초기화

@@ -47,7 +47,7 @@ export default function EditPage() {
   );
 
   const dropRef = useRef<HTMLDivElement>(null);
-  const [, drop] = useDrop<EditorElement, void, any>({
+  const [, drop] = useDrop<EditorElement, void>({
     accept: "element",
     drop: (item: EditorElement, monitor) => {
       const offset = monitor.getClientOffset();
