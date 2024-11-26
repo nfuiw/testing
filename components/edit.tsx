@@ -31,12 +31,12 @@ const ELEMENTS = [
 ] as const;
 
 const IMAGES = [
-  "/images/scene1.jpg",
-  "/images/scene2.jpg",
-  "/images/scene3.jpg",
-  "/images/scene4.jpg",
-  "/images/scene5.jpg",
-  "/images/scene6.jpg",
+  "/edit_screen.png",
+  "/edit_screen.png",
+  "/edit_screen.png",
+  "/edit_screen.png",
+  "/edit_screen.png",
+  "/edit_screen.png",
 ];
 
 export default function EditPage() {

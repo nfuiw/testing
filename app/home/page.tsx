@@ -21,19 +21,19 @@ const HomePage = () => {
       title: "우주 탐험 VR 체험",
       description: "태양계를 직접 탐험하며 배우는 가상 현실 교육",
       views: 15240,
-      thumbnail: "/api/placeholder/300/200",
+      thumbnail: "/contents_2.png",
     },
     {
       title: "인체 해부학 VR 투어",
       description: "인체의 구조를 3D로 배우는 실감형 콘텐츠",
       views: 12150,
-      thumbnail: "/api/placeholder/300/200",
+      thumbnail: "/contents_3.png",
     },
     {
       title: "공룡 시대로의 여행",
       description: "쥐라기 시대를 생생하게 체험하는 VR 콘텐츠",
       views: 10890,
-      thumbnail: "/api/placeholder/300/200",
+      thumbnail: "/contents_1.png",
     },
   ];
 
