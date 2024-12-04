@@ -32,7 +32,6 @@ const ContentDetails2 = () => {
       setShowGuide(true);
     }, 2000);
 
-    // 컴포넌트가 언마운트될 때 타이머 클리어
     return () => clearTimeout(timer);
   }, []);
 
@@ -66,12 +65,21 @@ const ContentDetails2 = () => {
       setCurrentTab(guideSteps[nextStep].tab);
     } else {
       setShowGuide(false);
-      router.push("/main/contents/details2"); // 다음 페이지 경로로 수정해주세요
+      router.push("/main/contents/details2");
     }
   };
+
+  const getTabHighlightStyle = (tabName: string) => {
+    if (showGuide && guideSteps[currentStep].tab === tabName) {
+      return "relative z-50";
+    }
+    return "";
+  };
+
   const handleVersionClick = () => {
     router.push("/main/contents/details/edited-versions");
   };
+
   const content = {
     id: "1",
     title: "소화기관으로 떠나는 신기한 XR버스",
@@ -97,33 +105,42 @@ const ContentDetails2 = () => {
   return (
     <>
       {showGuide && (
-        <div className="fixed top-3 right-0 z-50 flex">
-          <div className="bg-white rounded-lg shadow-lg p-6 mx-4 max-w-2xl border-2 border-blue-100 flex flex-col items-center">
-            <p className="text-center text-gray-700 mb-4">
-              {guideSteps[currentStep].message}
-            </p>
-            <button
-              onClick={handleNext}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              다음
-            </button>
+        <>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-40" />
+          <div className="fixed top-36 right-32 z-50 flex">
+            <div className="bg-white rounded-lg shadow-lg p-6 mx-4 max-w-2xl border-2 border-blue-100 flex flex-col items-center">
+              <p className="text-center text-gray-700 mb-4">
+                {guideSteps[currentStep].message}
+              </p>
+              <button
+                onClick={handleNext}
+                className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                다음
+              </button>
+            </div>
           </div>
-        </div>
+        </>
       )}
-      <div className="min-h-screen bg-gray-50">
+
+      <div className={`min-h-screen bg-gray-50 ${showGuide ? "relative" : ""}`}>
         <div className="container mx-auto px-6 py-8 max-w-[1400px]">
           <Link
             href="/main/contents"
-            className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-6"
+            className={`inline-flex items-center text-gray-600 hover:text-gray-900 mb-6 ${
+              showGuide ? "opacity-50 pointer-events-none" : ""
+            }`}
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             콘텐츠 목록으로 돌아가기
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* 왼쪽 섹션: 이미지와 콘텐츠 정보 */}
-            <div className="lg:col-span-1">
+            <div
+              className={`lg:col-span-1 ${
+                showGuide ? "opacity-50 pointer-events-none" : ""
+              }`}
+            >
               <Card className="h-full">
                 <CardContent className="p-0">
                   <img
@@ -133,8 +150,6 @@ const ContentDetails2 = () => {
                   />
                   <div className="p-6">
                     <div className="space-y-3">
-                      {" "}
-                      {/* 상단 부분의 간격만 더 좁게 조정 */}
                       <div className="flex flex-wrap gap-2">
                         {content.tags.map((tag) => (
                           <Badge
@@ -172,8 +187,6 @@ const ContentDetails2 = () => {
                     </div>
 
                     <div className="mt-4 space-y-6">
-                      {" "}
-                      {/* 나머지 부분은 기존 간격 유지 */}
                       <div className="flex flex-col gap-3 pt-4">
                         <Button className="w-full bg-blue-600 hover:bg-blue-700">
                           <Play className="w-4 h-4 mr-2" />
@@ -198,9 +211,8 @@ const ContentDetails2 = () => {
               </Card>
             </div>
 
-            {/* 오른쪽 섹션: 탭 컨텐츠 */}
             <div className="lg:col-span-1">
-              <Card className="h-full">
+              <Card className={`h-full ${showGuide ? "relative z-45" : ""}`}>
                 <Tabs
                   value={currentTab}
                   className="h-full"
@@ -209,45 +221,53 @@ const ContentDetails2 = () => {
                   <TabsList className="w-full grid grid-cols-4 p-1 bg-gray-50 h-14">
                     <TabsTrigger
                       value="overview"
-                      className="data-[state=active]:bg-white rounded-lg h-10"
+                      className={`data-[state=active]:bg-white rounded-lg h-10 ${getTabHighlightStyle(
+                        "overview"
+                      )}`}
                     >
                       <BookOpen className="w-4 h-4 mr-2" />
                       콘텐츠 개요
                     </TabsTrigger>
                     <TabsTrigger
                       value="objectives"
-                      className="data-[state=active]:bg-white rounded-lg h-10"
+                      className={`data-[state=active]:bg-white rounded-lg h-10 ${getTabHighlightStyle(
+                        "objectives"
+                      )}`}
                     >
                       <Target className="w-4 h-4 mr-2" />
                       학습 목표
                     </TabsTrigger>
                     <TabsTrigger
                       value="guide"
-                      className="data-[state=active]:bg-white rounded-lg h-10"
+                      className={`data-[state=active]:bg-white rounded-lg h-10 ${getTabHighlightStyle(
+                        "guide"
+                      )}`}
                     >
                       <FileText className="w-4 h-4 mr-2" />
                       교사 가이드
                     </TabsTrigger>
                     <TabsTrigger
                       value="evaluation"
-                      className="data-[state=active]:bg-white rounded-lg h-10"
+                      className={`data-[state=active]:bg-white rounded-lg h-10 ${getTabHighlightStyle(
+                        "evaluation"
+                      )}`}
                     >
                       <ClipboardCheck className="w-4 h-4 mr-2" />
                       평가 자료
                     </TabsTrigger>
                   </TabsList>
 
-                  <div className="p-6 h-[calc(100%-60px)] overflow-y-auto">
+                  <div
+                    className={`p-6 h-[calc(100%-60px)] overflow-y-auto ${
+                      showGuide ? "relative z-45" : ""
+                    }`}
+                  >
                     <TabsContent value="overview" className="mt-0 h-full">
                       <h2 className="text-xl font-bold m-4 ml-1 pb-2">
                         콘텐츠 소개
                       </h2>
                       <div className="space-y-8">
                         <div>
-                          {/* <h3 className="text-lg font-semibold mb-4 flex items-center text-blue-600">
-                          <span className="w-1 h-6 bg-blue-600 mr-3 rounded-full"></span>
-                          콘텐츠 소개
-                        </h3> */}
                           <p className="text-gray-600 leading-relaxed pl-3">
                             {content.description}
                           </p>
@@ -297,10 +317,6 @@ const ContentDetails2 = () => {
                       </h2>
                       <div className="space-y-8">
                         <div>
-                          {/* <h3 className="text-lg font-semibold mb-4 flex items-center text-blue-600">
-                          <span className="w-1 h-6 bg-blue-600 mr-3 rounded-full"></span>
-                          학습 목표
-                        </h3> */}
                           <div className="p-4 bg-blue-50 rounded-lg">
                             <p className="text-gray-800">
                               소화 기관의 구조와 기능을 설명할 수 있다.
@@ -424,61 +440,40 @@ const ContentDetails2 = () => {
                               수행평가
                             </h3>
                             <div className="grid grid-cols-2 gap-4">
-                              <div className="p-4 border-2 border-blue-100 rounded-lg hover:bg-blue-50 transition-colors">
-                                <div className="flex items-center justify-between">
-                                  <div>
-                                    <h4 className="font-medium">수행평가 1</h4>
-                                  </div>
-                                  <div className="flex">
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2 mr-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      문항
-                                    </Button>
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      답안
-                                    </Button>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="p-4 border-2 border-blue-100 rounded-lg hover:bg-blue-50 transition-colors">
-                                <div className="flex items-center justify-between mb-3">
-                                  <div>
-                                    <h4 className="font-medium">수행평가 2</h4>
-                                  </div>
-                                  <div className="flex">
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2 mr-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      문항
-                                    </Button>
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      답안
-                                    </Button>
+                              {[1, 2].map((num) => (
+                                <div
+                                  key={`performance-${num}`}
+                                  className="p-4 border-2 border-blue-100 rounded-lg hover:bg-blue-50 transition-colors"
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <div>
+                                      <h4 className="font-medium">
+                                        수행평가 {num}
+                                      </h4>
+                                    </div>
+                                    <div className="flex">
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={handleDownload}
+                                        className="border-2 mr-2"
+                                      >
+                                        <Download className="w-4 h-4 mr-2" />
+                                        문항
+                                      </Button>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={handleDownload}
+                                        className="border-2"
+                                      >
+                                        <Download className="w-4 h-4 mr-2" />
+                                        답안
+                                      </Button>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
+                              ))}
                             </div>
                           </div>
 
@@ -488,61 +483,40 @@ const ContentDetails2 = () => {
                               단원평가
                             </h3>
                             <div className="grid grid-cols-2 gap-4">
-                              <div className="p-4 border-2 border-green-100 rounded-lg hover:bg-green-50 transition-colors">
-                                <div className="flex items-center justify-between mb-3">
-                                  <div>
-                                    <h4 className="font-medium">단원평가 1</h4>
-                                  </div>
-                                  <div className="flex">
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2 mr-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      문항
-                                    </Button>
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      답안
-                                    </Button>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="p-4 border-2 border-green-100 rounded-lg hover:bg-green-50 transition-colors">
-                                <div className="flex items-center justify-between mb-3">
-                                  <div>
-                                    <h4 className="font-medium">단원평가 2</h4>
-                                  </div>
-                                  <div className="flex">
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2 mr-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      문항
-                                    </Button>
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      답안
-                                    </Button>
+                              {[1, 2].map((num) => (
+                                <div
+                                  key={`unit-${num}`}
+                                  className="p-4 border-2 border-green-100 rounded-lg hover:bg-green-50 transition-colors"
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <div>
+                                      <h4 className="font-medium">
+                                        단원평가 {num}
+                                      </h4>
+                                    </div>
+                                    <div className="flex">
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={handleDownload}
+                                        className="border-2 mr-2"
+                                      >
+                                        <Download className="w-4 h-4 mr-2" />
+                                        문항
+                                      </Button>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={handleDownload}
+                                        className="border-2"
+                                      >
+                                        <Download className="w-4 h-4 mr-2" />
+                                        답안
+                                      </Button>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
+                              ))}
                             </div>
                           </div>
 
@@ -552,61 +526,40 @@ const ContentDetails2 = () => {
                               퀴즈
                             </h3>
                             <div className="grid grid-cols-2 gap-4">
-                              <div className="p-4 border-2 border-purple-100 rounded-lg hover:bg-purple-50 transition-colors">
-                                <div className="flex items-center justify-between mb-3">
-                                  <div>
-                                    <h4 className="font-medium">퀴즈 1</h4>
-                                  </div>
-                                  <div className="flex">
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2 mr-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      문항
-                                    </Button>
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      답안
-                                    </Button>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="p-4 border-2 border-purple-100 rounded-lg hover:bg-purple-50 transition-colors">
-                                <div className="flex items-center justify-between mb-3">
-                                  <div>
-                                    <h4 className="font-medium">퀴즈 2</h4>
-                                  </div>
-                                  <div className="flex">
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2 mr-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      문항
-                                    </Button>
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={handleDownload}
-                                      className="border-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-2" />
-                                      답안
-                                    </Button>
+                              {[1, 2].map((num) => (
+                                <div
+                                  key={`quiz-${num}`}
+                                  className="p-4 border-2 border-purple-100 rounded-lg hover:bg-purple-50 transition-colors"
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <div>
+                                      <h4 className="font-medium">
+                                        퀴즈 {num}
+                                      </h4>
+                                    </div>
+                                    <div className="flex">
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={handleDownload}
+                                        className="border-2 mr-2"
+                                      >
+                                        <Download className="w-4 h-4 mr-2" />
+                                        문항
+                                      </Button>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={handleDownload}
+                                        className="border-2"
+                                      >
+                                        <Download className="w-4 h-4 mr-2" />
+                                        답안
+                                      </Button>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
+                              ))}
                             </div>
                           </div>
                         </div>

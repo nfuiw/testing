@@ -20,6 +20,20 @@ interface VRDevice {
 
 const GRADES = [1, 2, 3, 4, 5, 6];
 
+const CONTENT_DATES = [
+  { label: "이번 주", value: "thisWeek" },
+  { label: "이번 달", value: "thisMonth" },
+  { label: "최근 3개월", value: "last3Months" },
+  { label: "올해", value: "thisYear" },
+];
+
+const CONTENT_LENGTHS = [
+  { label: "5분 미만", value: "under5" },
+  { label: "5~10분", value: "5to10" },
+  { label: "10~20분", value: "10to20" },
+  { label: "20분 초과", value: "over20" },
+];
+
 // 상수 정의
 const VR_DEVICES: VRDevice[] = [
   {
@@ -74,7 +88,10 @@ export default function ContentsSearchForm() {
   const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [unit, setUnit] = useState("");
-
+  const [selectedDateRange, setSelectedDateRange] = useState<string | null>(
+    null
+  );
+  const [selectedLength, setSelectedLength] = useState<string | null>(null);
   const [selectedXRType, setSelectedXRType] = useState<string | null>(null);
   const [selectedDevice, setSelectedDevice] = useState<string | null>(null);
   const [selectedHours, setSelectedHours] = useState<string | null>(null);
@@ -320,6 +337,51 @@ export default function ContentsSearchForm() {
                 {hour}
               </button>
             ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 divide-x divide-gray-100">
+          {/* 콘텐츠 생성 기간 */}
+          <div className="p-6 space-y-4">
+            <h3 className="text-sm font-medium text-gray-700">
+              콘텐츠 생성 기간
+            </h3>
+            <div className="flex gap-2">
+              {CONTENT_DATES.map(({ label, value }) => (
+                <button
+                  key={value}
+                  onClick={() => setSelectedDateRange(value)}
+                  className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                    ${
+                      selectedDateRange === value
+                        ? "bg-blue-500 text-white ring-2 ring-blue-500/20"
+                        : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                    }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>{" "}
+          {/* 콘텐츠 길이 */}
+          <div className="p-6 space-y-4">
+            <h3 className="text-sm font-medium text-gray-700">콘텐츠 길이</h3>
+            <div className="flex gap-2">
+              {CONTENT_LENGTHS.map(({ label, value }) => (
+                <button
+                  key={value}
+                  onClick={() => setSelectedLength(value)}
+                  className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                    ${
+                      selectedLength === value
+                        ? "bg-blue-500 text-white ring-2 ring-blue-500/20"
+                        : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                    }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 

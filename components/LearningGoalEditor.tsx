@@ -16,7 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface EditorElement {
   type:
@@ -93,14 +93,23 @@ const LearningGoalEditor: React.FC<LearningGoalEditorProps> = ({
   const [subject, setSubject] = useState("science");
   const [unit, setUnit] = useState("body");
   const [showStandards, setShowStandards] = useState(false);
-  const [selectedStandard, setSelectedStandard] = useState<string | null>(null);
+  const [selectedStandards, setSelectedStandards] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (selectedStandards.length > 0) {
+      onUpdate({
+        ...element,
+        content: selectedStandards.join("\n\n"),
+      });
+    }
+  }, [selectedStandards]);
 
   const handleStandardSelect = (content: string) => {
-    setSelectedStandard(content);
-    onUpdate({
-      ...element,
-      content,
-    });
+    setSelectedStandards((prev) =>
+      prev.includes(content)
+        ? prev.filter((std) => std !== content)
+        : [...prev, content]
+    );
   };
 
   return (
@@ -171,7 +180,7 @@ const LearningGoalEditor: React.FC<LearningGoalEditorProps> = ({
                 <TableRow key={standard.code}>
                   <TableCell>
                     <Checkbox
-                      checked={selectedStandard === standard.content}
+                      checked={selectedStandards.includes(standard.content)}
                       onCheckedChange={() =>
                         handleStandardSelect(standard.content)
                       }
@@ -186,18 +195,18 @@ const LearningGoalEditor: React.FC<LearningGoalEditorProps> = ({
           </Table>
         )}
 
-        {selectedStandard && (
+        {selectedStandards.length > 0 && (
           <div className="rounded-lg overflow-hidden">
             <h3 className="pl-2 text-sm font-medium mb-2">
-              학습 목표를 자유롭게 수정해 보세요
+              선택한 학습 목표를 자유롭게 수정해 보세요
             </h3>
             <textarea
-              className="w-full p-4 border border-gray-300 rounded-b-lg  resize-none"
-              value={element.content || selectedStandard}
+              className="w-full p-4 border border-gray-300 rounded-b-lg resize-none"
+              value={element.content || selectedStandards.join("\n\n")}
               onChange={(e) =>
                 onUpdate({ ...element, content: e.target.value })
               }
-              rows={4}
+              rows={Math.max(4, selectedStandards.length * 2)}
               placeholder="내용을 입력하세요..."
             />
           </div>

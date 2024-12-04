@@ -24,7 +24,7 @@ interface EditorElement {
 
 const ELEMENTS = [
   { type: "learningGoal", label: "학습 목표", color: "#FF6B6B" },
-  { type: "objectTag", label: "물체 태그", color: "#4ECDC4" },
+  { type: "objectTag", label: "물체 설명", color: "#4ECDC4" },
   { type: "subtitle", label: "자막", color: "#45B7D1" },
   { type: "quiz", label: "퀴즈", color: "#96CEB4" },
   { type: "notice", label: "공지사항", color: "#FFEEAD" },

@@ -18,16 +18,17 @@ const HomePage = () => {
 
   const vrContents = [
     {
-      title: "우주 탐험 VR 체험",
-      description: "태양계를 직접 탐험하며 배우는 가상 현실 교육",
-      views: 15240,
-      thumbnail: "/contents_2.png",
-    },
-    {
       title: "인체 해부학 VR 투어",
       description: "인체의 구조를 3D로 배우는 실감형 콘텐츠",
       views: 12150,
       thumbnail: "/contents_3.png",
+      highlight: true,
+    },
+    {
+      title: "우주 탐험 VR 체험",
+      description: "태양계를 직접 탐험하며 배우는 가상 현실 교육",
+      views: 15240,
+      thumbnail: "/contents_2.png",
     },
     {
       title: "공룡 시대로의 여행",
@@ -47,7 +48,10 @@ const HomePage = () => {
             size="icon"
             onClick={() => router.push("/home")}
           >
-            <Home className="h-6 w-6" />
+            <div className="flex items-center">
+              <Home className="h-8 w-8 mr-2 ml-6" />
+              <div>HOME</div>
+            </div>
           </Button>
           <div className="flex items-center gap-4">
             <Button variant="ghost" onClick={() => router.push("/my-library")}>
@@ -90,7 +94,6 @@ const HomePage = () => {
         </form>
       </div>
 
-      {/* Content Section */}
       <div className="w-full max-w-4xl mx-auto px-4 mt-16">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">요즘 인기있는 콘텐츠에요!</h2>
@@ -107,6 +110,22 @@ const HomePage = () => {
               className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
             >
               <div className="relative h-48">
+                {content.highlight && (
+                  <div className="absolute inset-x-0 top-0 bg-blue-500/90 text-white py-2 px-4 flex items-center gap-2">
+                    <svg
+                      className="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                    <span className="text-sm font-medium">
+                      최근 관심있는 [신체] 키워드로 추천
+                    </span>
+                  </div>
+                )}
                 <img
                   src={content.thumbnail}
                   alt={content.title}
@@ -124,6 +143,15 @@ const HomePage = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-6 text-right">
+          <a
+            href="#"
+            className="inline-flex items-center gap-1 text-blue-500 hover:text-blue-600 font-medium"
+          >
+            + 콘텐츠 더보기
+          </a>
         </div>
       </div>
     </div>

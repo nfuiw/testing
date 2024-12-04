@@ -17,7 +17,7 @@ export const SubjectSelect = ({ grades, onSelect }: SubjectSelectProps) => {
   const [confirmationTypingDone, setConfirmationTypingDone] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(true);
 
-  const subjects = ["과학", "사회", "수학", "음악", "미술", "체육"];
+  const subjects = ["과학", "사회", "체육", "미술", "음악", "수학"];
 
   const gradeText =
     grades.length > 1 ? `${grades.join(", ")}학년을` : `${grades[0]}학년을`;
